@@ -1,0 +1,1 @@
+[ext_resource path="%%FILE%%" type="Texture" id=%%ID%%]

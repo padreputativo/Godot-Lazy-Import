@@ -1,0 +1,101 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/Lazy_Import/dock.gd" type="Script" id=1]
+[ext_resource path="res://addons/Lazy_Import/templates/ImageConfig.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Lazy_Import/Icons/Search.svg" type="Texture" id=3]
+
+[node name="Lazy Import" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_right = 1024.0
+margin_bottom = 26.0
+clear_button_enabled = true
+right_icon = ExtResource( 3 )
+placeholder_text = "Filter files"
+caret_blink = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_top = 30.0
+margin_right = 1024.0
+margin_bottom = 568.0
+size_flags_vertical = 3
+
+[node name="File List" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 1024.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" parent="ScrollContainer/File List" instance=ExtResource( 2 )]
+
+[node name="MaterialName" type="LineEdit" parent="."]
+margin_top = 572.0
+margin_right = 1024.0
+margin_bottom = 596.0
+placeholder_text = "Material filename without extension"
+caret_blink = true
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_top = 600.0
+margin_right = 1024.0
+margin_bottom = 600.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Error" type="Button" parent="Buttons"]
+visible = false
+margin_left = 735.0
+margin_right = 871.0
+margin_bottom = 20.0
+disabled = true
+shortcut_in_tooltip = false
+text = "This button would never be visible"
+
+[node name="ToogleAll" type="Button" parent="Buttons"]
+visible = false
+margin_left = 875.0
+margin_right = 1024.0
+margin_bottom = 20.0
+shortcut_in_tooltip = false
+text = "Toogle All"
+
+[node name="Scenes" type="Button" parent="Buttons"]
+visible = false
+margin_left = 875.0
+margin_right = 1024.0
+margin_bottom = 20.0
+shortcut_in_tooltip = false
+text = "Create inherited Scenes"
+
+[node name="MaterialOptions" type="OptionButton" parent="Buttons"]
+visible = false
+margin_left = 916.0
+margin_right = 1024.0
+margin_bottom = 20.0
+text = "High Quality"
+items = [ "High Quality", null, false, 0, null, "Transparent", null, false, 1, null, "Low End", null, false, 2, null, "Interface", null, false, 3, null, "Hair", null, false, 4, null, "Cloth", null, false, 5, null, "Toon", null, false, 6, null, "Foliage", null, false, 7, null, "Billboard", null, false, 8, null, "Particles", null, false, 9, null, "Sprite", null, false, 10, null, "Meat", null, false, 11, null, "Light", null, false, 12, null ]
+selected = 0
+
+[node name="Material" type="Button" parent="Buttons"]
+visible = false
+margin_left = 875.0
+margin_right = 1024.0
+margin_bottom = 20.0
+shortcut_in_tooltip = false
+text = "Create ONE Material"
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_LineEdit_text_changed"]
+[connection signal="text_changed" from="MaterialName" to="." method="_on_MaterialName_text_changed"]
+[connection signal="pressed" from="Buttons/ToogleAll" to="." method="_on_ToogleAll_pressed"]
+[connection signal="pressed" from="Buttons/Scenes" to="." method="_on_Scenes_pressed"]
+[connection signal="pressed" from="Buttons/Material" to="." method="_on_Materials_pressed"]

@@ -1,0 +1,3 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+
