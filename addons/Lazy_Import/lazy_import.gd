@@ -22,6 +22,8 @@ func _enter_tree():
 	
 	if dock is Node && "plugin" in dock:
 		dock.plugin = self
+		dock.plugin_ready = true
+		dock.debug = debug
 	
 		fileSystem.connect("display_mode_changed", self, "refresh")
 		subscribe_to_trees()

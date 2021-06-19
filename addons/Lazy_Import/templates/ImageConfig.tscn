@@ -23,7 +23,7 @@ margin_right = 1024.0
 margin_bottom = 24.0
 text = "Unknown"
 icon = ExtResource( 1 )
-items = [ "Unknown", ExtResource( 1 ), false, 0, null, "Albedo", null, false, 1, null, "Metallic", null, false, 2, null, "Roughness", null, false, 3, null, "Emission", null, false, 4, null, "Normal Map", null, false, 5, null, "Rim", null, false, 6, null, "Clearcoat", null, false, 7, null, "Anisotropy", null, false, 8, null, "Ambient Occlusion", null, false, 9, null, "Depth", null, false, 10, null, "Subsurface Scattering", null, false, 11, null, "Transmission", null, false, 12, null, "Refraction", null, false, 13, null, "Detail", null, false, 14, null, "Decal", null, false, 15, null ]
+items = [ "Unknown", ExtResource( 1 ), false, 0, null, "Albedo", null, false, 1, null, "Metallic", null, false, 2, null, "Roughness", null, false, 3, null, "Emission", null, false, 4, null, "Normal Map", null, false, 5, null, "Rim", null, false, 6, null, "Clearcoat", null, false, 7, null, "Anisotropy", null, false, 8, null, "Ambient Occlusion", null, false, 9, null, "Depth", null, false, 10, null, "Subsurface Scattering", null, false, 11, null, "Transmission", null, false, 12, null, "Refraction", null, false, 13, null, "Detail", null, false, 14, null, "Decal", null, false, 15, null, "Unable to process", ExtResource( 1 ), false, 16, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
