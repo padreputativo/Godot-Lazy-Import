@@ -302,9 +302,9 @@ func try_to_fix_file(file_name):
 		if (f in file_name.to_lower()):
 			push_warning("You need to convert the " + f + " map to PBR")
 			
-	for f in ["opacity"]:
+	for f in ["opacity", "glass"]:
 		if (f in file_name.to_lower()):
-			push_warning("You need to put the " + f + " map inside the Albedo Alpha channel")
+			push_warning("You probably need to put the " + f + " map inside the Albedo Alpha channel")
 
 func change_import_file(file_name, what, forwhat):
 	if debug: print(debugTitle + "change_import_file()")

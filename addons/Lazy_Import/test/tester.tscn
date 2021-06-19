@@ -6,17 +6,17 @@
 [ext_resource path="res://addons/Lazy_Import/test/art/godot_ball.mesh" type="ArrayMesh" id=4]
 [ext_resource path="res://addons/Lazy_Import/test/test_material.tres" type="Material" id=5]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.895294, 0.900549, 0.890078, 1 )
 metallic = 0.1
 roughness = 0.52
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0.551806, 0.709299, 0.980989, 1 )
 metallic = 0.31
 roughness = 0.42
 
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="SpatialMaterial" id=3]
 albedo_color = Color( 0.471216, 0.481647, 0.465961, 1 )
 metallic = 0.1
 roughness = 0.0
@@ -36,9 +36,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18 )
 transform = Transform( -3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, 2.62575, 0.575808, -3.06348 )
 mesh = ExtResource( 4 )
 material/0 = ExtResource( 5 )
-material/1 = SubResource( 3 )
-material/2 = SubResource( 4 )
-material/3 = SubResource( 5 )
+material/1 = SubResource( 1 )
+material/2 = SubResource( 2 )
+material/3 = SubResource( 3 )
 
 [node name="camera" type="Spatial" parent="."]
 transform = Transform( 0.16255, 0, -0.9867, 0, 1, 0, 0.9867, 0, 0.16255, 10.1803, 0.710127, 14.3758 )

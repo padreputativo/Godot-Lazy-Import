@@ -8,7 +8,8 @@ var debugTitle = "Lazy Import - lazy_import.gd: "
 var error = "Lazy Import Dock is not behaving properly! Try to restart Godot!"
 
 var interface = get_editor_interface()
-var fileSystem = interface.get_file_system_dock()
+var fileSystem = interface.get_resource_filesystem()
+var fileSystemDock = interface.get_file_system_dock()
 
 func _enter_tree():
 	if debug: print(debugTitle + "_enter_tree()")
@@ -25,8 +26,14 @@ func _enter_tree():
 		dock.plugin_ready = true
 		dock.debug = debug
 	
-		fileSystem.connect("display_mode_changed", self, "refresh")
+		# añadismo las señales
+		fileSystem.connect("filesystem_changed", self, "refresh")
+		#fileSystem.connect("resources_reimported", self, "refresh")
+		#fileSystem.connect("resources_reload", self, "refresh")
+		#fileSystem.connect("sources_changed", self, "refresh")
+		fileSystemDock.connect("display_mode_changed", self, "refresh")
 		subscribe_to_trees()
+		
 		refresh()
 	else:
 		push_error(error)
@@ -46,7 +53,7 @@ func refresh():
 		push_error(error)
 
 func filesystem_refresh():
-	interface.get_resource_filesystem().scan()
+	fileSystem.scan()
 
 func selected_path():
 	if debug: print(debugTitle + "selected_path()")
@@ -61,7 +68,7 @@ func is_enabled():
 	return interface.is_plugin_enabled(get_plugin_name())
 
 
-func subscribe_to_trees(node = fileSystem):
+func subscribe_to_trees(node = fileSystemDock):
 	if debug: print(debugTitle + "subscribe_to_trees()")
 	for N in node.get_children():
 		if N.get_child_count() > 0:
