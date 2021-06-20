@@ -3,22 +3,20 @@ extends Node
 
 
 # modified by the plugin
-var debug = false
-var plugin_ready = false
-var plugin
+var _debug = false
+var _plugin_ready = false
+var _plugin
 
-var debugTitle = "Lazy Import - dock.gd: "
-var error = "Lazy Import Plugin is not behaving properly! Try to restart Godot!"
-
+# before scan
 var directory
 var dir_found = false
 var search_filter = "."
 
+# after scan
 var image_found = false
 var image_extensions = ["jpg", "png", "jpeg", "tga", "bmp", "hdr", "psd", "svg", "svgz", "webp", "dds", "exr"]
 var mesh_found = false
 var mesh_extensions = ["fbx", "gltf", "glb", "dae", "obj"]
-
 var image_checked = false
 var mesh_checked = false
 
@@ -36,23 +34,41 @@ const ImageConfig = preload("res://addons/Lazy_Import/templates/ImageConfig.tscn
 const MeshConfig = preload("res://addons/Lazy_Import/templates/MeshConfig.tscn")
 
 func _ready():
-	if debug: print(debugTitle + "_ready()")
+	debug("_ready()")
 	self.set_name("Lazy Import")
-	if debug: print(debugTitle + "_ready: " + self.get_path())
-	if debug: print(debugTitle + "_ready: " + self.name + " Dock loaded")
+	debug("_ready: " + self.get_path())
+	debug("_ready: " + self.name + " Dock loaded")
 	# no hacer refresh aqui porque este archivo se carga aun no estando el plugin activado o cargado todavia
 
 func kill():
-	if debug: print(debugTitle + "kill()")
+	debug("kill()")
 	self.queue_free()
 
+func dock_isReady():
+	if _plugin_ready && self is Node && self.name == "Lazy Import":
+		return true
+	else:
+		push_error("Lazy Import Dock is not behaving properly! Try to restart Godot!")
+
+func plugin_isReady():
+	if _plugin is EditorPlugin && _plugin.name == "Lazy Import Plugin" && _plugin.has_method("is_enabled") && _plugin.is_enabled():
+		return true
+	else:
+		push_error("Lazy Import Plugin is not behaving properly! Try to restart Godot!")
+
+func debug(txt):
+	if _debug: print("Lazy Import : " + txt)
+
+func notify(txt):
+	print("Lazy Import : " + txt)
+
 func refresh():
-	if debug: print(debugTitle + "refresh()")
-	if plugin_ready:
+	debug("refresh()")
+	if dock_isReady():
 		
-		if (plugin is EditorPlugin && plugin.name == "Lazy Import Plugin" && plugin.has_method("selected_path") && plugin.has_method("is_enabled") && plugin.is_enabled()):
+		if plugin_isReady():
 			
-			if debug: print(debugTitle + "refresh: " + plugin.get_path())
+			debug("refresh: " + _plugin.get_path())
 			
 			# reset de variables
 			directory = ""
@@ -69,12 +85,12 @@ func refresh():
 			yield(get_tree(), "idle_frame")
 			
 			# miramos que directorio hemos recibido
-			directory = plugin.selected_path()
+			directory = _plugin.selected_path()
 
 			# revisamos el directorio
 			var dir = Directory.new()
 			if dir.dir_exists(directory) && dir.open(directory) == OK:
-				if debug: print(debugTitle + "refresh: directory exists: " + directory)
+				debug("refresh: directory exists: " + directory)
 				dir.open(directory)
 				dir.list_dir_begin()
 
@@ -83,7 +99,7 @@ func refresh():
 					if not dir.current_is_dir() && file != "" && not file.begins_with(".") && search_filter in file.to_lower():
 						if is_valid_image_extension(file):
 							image_found = true
-							if debug: print(debugTitle + "refresh: dir list: " + file)
+							debug("refresh: dir list: " + file)
 							# instanciamos checkbox
 							var node = ImageConfig.instance()
 							node.get_node("CheckBox").text = file
@@ -94,7 +110,7 @@ func refresh():
 						
 						if is_valid_mesh_extension(file): 
 							mesh_found = true
-							if debug: print(debugTitle + "refresh: list: " + file)
+							debug("refresh: list: " + file)
 							# instanciamos checkbox
 							var node = MeshConfig.instance()
 							node.get_node("CheckBox").text = file
@@ -110,15 +126,6 @@ func refresh():
 				dir.list_dir_end()
 				
 				dir_found = true
-			
-		else:
-			if (debug && plugin is EditorPlugin):
-				print(debugTitle + "ERROR: " + plugin.name)
-				print(debugTitle + "ERROR: " + plugin.get_path())
-				print(debugTitle + "ERROR: " + plugin.has_method("selected_path"))
-				print(debugTitle + "ERROR: " + plugin.has_method("is_enabled"))
-				print(debugTitle + "ERROR: " + plugin.is_enabled())
-			push_error(error)
 		
 		refresh_buttons()
 
@@ -139,8 +146,8 @@ func is_valid_mesh_extension(file_name):
 	return false
 
 func refresh_buttons():
-	if debug: print(debugTitle + "refresh_buttons()")
-	if plugin_ready:
+	debug("refresh_buttons()")
+	if dock_isReady():
 		
 		boton_error.visible = false
 		boton_toggle.visible = false
@@ -191,7 +198,7 @@ func refresh_buttons():
 
 
 func load_template(file):
-	if debug: print(debugTitle + "load_template()")
+	debug("load_template()")
 	assert(file)
 	
 	var text = ""
@@ -202,12 +209,12 @@ func load_template(file):
 		text += f.get_line()
 	f.close()
 	
-	if debug: print(debugTitle + "load_template(): " + text)
+	debug("load_template(): " + text)
 	
 	return text
 
 func save_template(file_name, file_content):
-	if debug: print(debugTitle + "load_template()")
+	debug("load_template()")
 	assert(file_name)
 	assert(file_content)
 	
@@ -217,7 +224,7 @@ func save_template(file_name, file_content):
 	file.store_string(file_content)
 	file.close()
 	
-	print("Lazy Import created a new file: " + file_name)
+	notify("Lazy Import created a new file: " + file_name)
 
 func remove_file_extensions(file):
 	for f in image_extensions:
@@ -291,7 +298,7 @@ func guess_layer(file_name):
 
 
 func try_to_fix_file(file_name):
-	if debug: print(debugTitle + "try_to_fix_file()")
+	debug("try_to_fix_file()")
 	assert(file_name)
 
 	for f in ["displacement"]:
@@ -300,14 +307,14 @@ func try_to_fix_file(file_name):
 			
 	for f in ["specular", "diffuse"]:
 		if (f in file_name.to_lower()):
-			push_warning("You need to convert the " + f + " map to PBR")
+			notify("You need to convert the " + f + " map to PBR")
 			
 	for f in ["opacity", "glass"]:
 		if (f in file_name.to_lower()):
-			push_warning("You probably need to put the " + f + " map inside the Albedo Alpha channel")
+			notify("You probably need to put the " + f + " map inside the Albedo Alpha channel")
 
 func change_import_file(file_name, what, forwhat):
-	if debug: print(debugTitle + "change_import_file()")
+	debug("change_import_file()")
 	assert(file_name)
 	assert(what)
 	assert(forwhat)
@@ -319,8 +326,8 @@ func change_import_file(file_name, what, forwhat):
 
 
 func create_material(test):
-	if debug: print(debugTitle + "_on_Materials_pressed()")
-	if plugin_ready:
+	debug("_on_Materials_pressed()")
+	if dock_isReady():
 		assert(test)
 		
 		# TODO remove Unknown and Unable to process 
@@ -328,7 +335,7 @@ func create_material(test):
 		var file_name = "_material.tres"
 		if material_filename.text != "":
 			file_name = material_filename.text + "_material.tres"
-		if debug: print(debugTitle + file_name)
+		debug(file_name)
 		
 		var file_content = load_template("res://addons/Lazy_Import/templates/spatialmaterial.header.tres.txt") + "\n\n"
 		var step1 = load_template("res://addons/Lazy_Import/templates/spatialmaterial.step1.tres.txt") + "\n\n"
@@ -344,7 +351,7 @@ func create_material(test):
 		
 		file_content += load_template("res://addons/Lazy_Import/templates/spatialmaterial.step2.tres.txt") + "\n\n"
 		
-		if debug: print(material_options.text)
+		debug(material_options.text)
 		match material_options.text:
 			"High Quality":
 				file_content += ""
@@ -417,23 +424,23 @@ func create_material(test):
 				
 				file_id += 1
 
-		if debug: print(file_name, file_content)
+		debug(file_name + " - " +  file_content)
 		if test:
 			print(self.get_script().get_path().get_base_dir() + "/test/test_material.tres")
 			save_template(self.get_script().get_path().get_base_dir() + "/test/test_material.tres", file_content)
-			push_warning("Open the Test Scene! " + self.get_script().get_path().get_base_dir() + "/test/tester.tscn")
+			notify("Open the Test Scene! " + self.get_script().get_path().get_base_dir() + "/test/tester.tscn")
 		else:
 			save_template(directory + "/" + file_name, file_content)
-		plugin.filesystem_refresh()
+		_plugin.filesystem_refresh()
 		refresh()
 
 
 
-
+# Signals
 
 func _on_Scenes_pressed():
-	if debug: print(debugTitle + "_on_Scenes_pressed()")
-	if plugin_ready:
+	debug("_on_Scenes_pressed()")
+	if dock_isReady():
 		
 		var template = load_template("res://addons/Lazy_Import/templates/scene.tscn.txt")
 		
@@ -443,23 +450,23 @@ func _on_Scenes_pressed():
 				var file_name = directory + N.text + ".tscn"
 				var file_content = template.replace("%%FILE%%", directory + N.text).replace("%%NAME%%", remove_file_extensions(N.text))
 				
-				if debug: print(debugTitle + file_name + "  :  " + file_content)
+				debug(file_name + "  :  " + file_content)
 				
 				save_template(file_name, file_content)
 		
-		plugin.filesystem_refresh()
+		_plugin.filesystem_refresh()
 		refresh()
 
 
 func _on_Materials_pressed():
-	if debug: print(debugTitle + "_on_Materials_pressed()")
-	if plugin_ready:
+	debug("_on_Materials_pressed()")
+	if dock_isReady():
 		create_material(false)
 
 
 func _on_ToogleAll_pressed():
-	if debug: print(debugTitle + "_on_ToogleAll_pressed()")
-	if plugin_ready:
+	debug("_on_ToogleAll_pressed()")
+	if dock_isReady():
 		
 		for node in file_list.get_children():
 			var N = node.get_node("CheckBox")
@@ -472,8 +479,9 @@ func _on_ToogleAll_pressed():
 
 
 func _on_LineEdit_text_changed(new_text):
-	if debug: print(debugTitle + "_on_LineEdit_text_changed()")
-	if plugin_ready:
+	debug("_on_LineEdit_text_changed()")
+	if dock_isReady():
+		
 		if new_text != "":
 			search_filter = new_text
 		else:
@@ -482,12 +490,14 @@ func _on_LineEdit_text_changed(new_text):
 
 
 func _on_MaterialName_text_changed(new_text):
-	if debug: print(debugTitle + "_on_MaterialName_text_changed()")
-	if plugin_ready:
+	debug("_on_MaterialName_text_changed()")
+	if dock_isReady():
+		
 		pass # Replace with function body.
 
 
 func _on_Test_pressed():
-	if debug: print(debugTitle + "_on_Test_pressed()")
-	if plugin_ready:
+	debug("_on_Test_pressed()")
+	if dock_isReady():
+		
 		create_material(true)
