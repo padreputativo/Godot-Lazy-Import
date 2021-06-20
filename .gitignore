@@ -8,9 +8,7 @@ export_presets.cfg
 .mono/
 data_*/
 
-# Plugins should not modify Projects
-default_env.tres
-icon.png
-icon.png.import
-index.tscn
-project.godot
+# Git
+.git
+.git/*
+
