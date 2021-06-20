@@ -94,17 +94,8 @@ margin_bottom = 20.0
 shortcut_in_tooltip = false
 text = "Create Material"
 
-[node name="Test" type="Button" parent="Buttons"]
-visible = false
-margin_left = 875.0
-margin_right = 1024.0
-margin_bottom = 20.0
-shortcut_in_tooltip = false
-text = "Test"
-
 [connection signal="text_changed" from="LineEdit" to="." method="_on_LineEdit_text_changed"]
 [connection signal="text_changed" from="MaterialName" to="." method="_on_MaterialName_text_changed"]
 [connection signal="pressed" from="Buttons/ToogleAll" to="." method="_on_ToogleAll_pressed"]
 [connection signal="pressed" from="Buttons/Scenes" to="." method="_on_Scenes_pressed"]
 [connection signal="pressed" from="Buttons/Material" to="." method="_on_Materials_pressed"]
-[connection signal="pressed" from="Buttons/Test" to="." method="_on_Test_pressed"]

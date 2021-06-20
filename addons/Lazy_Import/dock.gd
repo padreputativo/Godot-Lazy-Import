@@ -27,7 +27,6 @@ onready var boton_scenes = get_node("Buttons/Scenes")
 onready var material_filename = get_node("MaterialName")
 onready var material_options = get_node("Buttons/MaterialOptions")
 onready var boton_material = get_node("Buttons/Material")
-onready var boton_test = get_node("Buttons/Test")
 onready var file_list = get_node("ScrollContainer/File List")
 
 const ImageConfig = preload("res://addons/Lazy_Import/templates/ImageConfig.tscn")
@@ -155,7 +154,6 @@ func refresh_buttons():
 		material_options.visible = false
 		boton_material.visible = false
 		material_filename.visible = false
-		boton_test.visible = false
 		
 		if dir_found:
 			if image_found || mesh_found:
@@ -185,7 +183,6 @@ func refresh_buttons():
 				material_options.visible = true
 				boton_material.visible = true
 				material_filename.visible = true
-				boton_test.visible = true
 			elif mesh_checked:
 				boton_scenes.visible = true
 			else:
@@ -325,10 +322,9 @@ func change_import_file(file_name, what, forwhat):
 	save_template(file_name, file_content)
 
 
-func create_material(test):
+func create_material():
 	debug("_on_Materials_pressed()")
 	if dock_isReady():
-		assert(test)
 		
 		# TODO remove Unknown and Unable to process 
 		
@@ -425,12 +421,7 @@ func create_material(test):
 				file_id += 1
 
 		debug(file_name + " - " +  file_content)
-		if test:
-			print(self.get_script().get_path().get_base_dir() + "/test/test_material.tres")
-			save_template(self.get_script().get_path().get_base_dir() + "/test/test_material.tres", file_content)
-			notify("Open the Test Scene! " + self.get_script().get_path().get_base_dir() + "/test/tester.tscn")
-		else:
-			save_template(directory + "/" + file_name, file_content)
+		save_template(directory + "/" + file_name, file_content)
 		_plugin.filesystem_refresh()
 		refresh()
 
@@ -461,7 +452,7 @@ func _on_Scenes_pressed():
 func _on_Materials_pressed():
 	debug("_on_Materials_pressed()")
 	if dock_isReady():
-		create_material(false)
+		create_material()
 
 
 func _on_ToogleAll_pressed():
@@ -494,10 +485,3 @@ func _on_MaterialName_text_changed(new_text):
 	if dock_isReady():
 		
 		pass # Replace with function body.
-
-
-func _on_Test_pressed():
-	debug("_on_Test_pressed()")
-	if dock_isReady():
-		
-		create_material(true)
