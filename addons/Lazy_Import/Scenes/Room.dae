@@ -11,7 +11,7 @@
     <up_axis>Z_UP</up_axis>
   </asset>
   <library_effects>
-    <effect id="Material_002-effect">
+    <effect id="white-effect">
       <profile_COMMON>
         <technique sid="common">
           <lambert>
@@ -31,8 +31,8 @@
   </library_effects>
   <library_images/>
   <library_materials>
-    <material id="Material_002-material" name="Material.002">
-      <instance_effect url="#Material_002-effect"/>
+    <material id="white-material" name="white">
+      <instance_effect url="#white-effect"/>
     </material>
   </library_materials>
   <library_geometries>
@@ -70,7 +70,7 @@
         <vertices id="Cube_003-mesh-vertices">
           <input semantic="POSITION" source="#Cube_003-mesh-positions"/>
         </vertices>
-        <triangles material="Material_002-material" count="60">
+        <triangles material="white-material" count="60">
           <input semantic="VERTEX" source="#Cube_003-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube_003-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#Cube_003-mesh-map-0" offset="2" set="0"/>
@@ -86,7 +86,7 @@
         <instance_geometry url="#Cube_003-mesh" name="Room">
           <bind_material>
             <technique_common>
-              <instance_material symbol="Material_002-material" target="#Material_002-material">
+              <instance_material symbol="white-material" target="#white-material">
                 <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
               </instance_material>
             </technique_common>

@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/HD Plane.fbx-2da5cd6b526624f3b34d7657eb1b069f.scn"
+path="res://.import/HD Sphere.glb-9bf71708aaa6750182ff4d62ab36decf.scn"
 
 [deps]
 
-source_file="res://addons/Lazy_Import/Scenes/HD Plane.fbx"
-dest_files=[ "res://.import/HD Plane.fbx-2da5cd6b526624f3b34d7657eb1b069f.scn" ]
+source_file="res://addons/Lazy_Import/Scenes/HD Sphere.glb"
+dest_files=[ "res://.import/HD Sphere.glb-9bf71708aaa6750182ff4d62ab36decf.scn" ]
 
 [params]
 

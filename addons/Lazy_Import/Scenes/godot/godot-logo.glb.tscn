@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/Lazy_Import/Scenes/godot/godot-logo.glb" type="PackedScene" id=1]
+
+[node name="godot-logo" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+
+[node name="head top002" parent="." index="0"]
+lightmap_scale = 3
+
+[node name="head bottom002" parent="." index="1"]
+lightmap_scale = 3
+
+[node name="eyes straight" parent="." index="2"]
+lightmap_scale = 3

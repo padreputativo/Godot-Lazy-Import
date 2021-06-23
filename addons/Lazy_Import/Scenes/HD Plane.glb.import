@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/Suzanne.glb.gltf-28973a0276c4d3a93c11cd1ef527d40f.scn"
+path="res://.import/HD Plane.glb-f69d9b1368f5dc2d496d25d8e2ab4dad.scn"
 
 [deps]
 
-source_file="res://addons/Lazy_Import/Scenes/Suzanne.glb.gltf"
-dest_files=[ "res://.import/Suzanne.glb.gltf-28973a0276c4d3a93c11cd1ef527d40f.scn" ]
+source_file="res://addons/Lazy_Import/Scenes/HD Plane.glb"
+dest_files=[ "res://.import/HD Plane.glb-f69d9b1368f5dc2d496d25d8e2ab4dad.scn" ]
 
 [params]
 
@@ -18,15 +18,15 @@ nodes/custom_script=""
 nodes/storage=0
 nodes/use_legacy_names=false
 materials/location=1
-materials/storage=0
-materials/keep_on_reimport=false
+materials/storage=1
+materials/keep_on_reimport=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 skins/use_named_skins=true
-external_files/store_in_subdir=false
+external_files/store_in_subdir=true
 animation/import=true
 animation/fps=15
 animation/filter_script=""

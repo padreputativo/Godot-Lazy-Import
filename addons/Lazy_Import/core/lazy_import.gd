@@ -14,7 +14,7 @@ var fileSystemDock = interface.get_file_system_dock()
 
 signal material_changed
 var test_scene_path = "res://addons/Lazy_Import/Lazy Import.tscn"
-var test_material_path = "res://addons/Lazy_Import/Scenes/Basic.material"
+var test_material_path = "res://addons/Lazy_Import/Scenes/Room/white.material"
 var test_material_name = "test_material"
 var material_previewing = test_material_name
 

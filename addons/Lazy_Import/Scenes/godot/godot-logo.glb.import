@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/HD Sphere.fbx-44c77213579a2395159a00d263f9e72e.scn"
+path="res://.import/godot-logo.glb-c36ffb5def3f478bb7a31a9575d9ff6e.scn"
 
 [deps]
 
-source_file="res://addons/Lazy_Import/Scenes/HD Sphere.fbx"
-dest_files=[ "res://.import/HD Sphere.fbx-44c77213579a2395159a00d263f9e72e.scn" ]
+source_file="res://addons/Lazy_Import/Scenes/godot/godot-logo.glb"
+dest_files=[ "res://.import/godot-logo.glb-c36ffb5def3f478bb7a31a9575d9ff6e.scn" ]
 
 [params]
 
@@ -26,7 +26,7 @@ meshes/storage=0
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 skins/use_named_skins=true
-external_files/store_in_subdir=false
+external_files/store_in_subdir=true
 animation/import=true
 animation/fps=15
 animation/filter_script=""
