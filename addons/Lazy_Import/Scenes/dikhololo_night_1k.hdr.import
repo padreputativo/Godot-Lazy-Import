@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lazy.svg-ba9bddf9a4bce09c225145ffcb7aa3b1.stex"
+path="res://.import/dikhololo_night_1k.hdr-63873dd7cf710fcc92cf665b229f0a03.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Lazy_Import/brand/lazy.svg"
-dest_files=[ "res://.import/lazy.svg-ba9bddf9a4bce09c225145ffcb7aa3b1.stex" ]
+source_file="res://addons/Lazy_Import/Scenes/dikhololo_night_1k.hdr"
+dest_files=[ "res://.import/dikhololo_night_1k.hdr-63873dd7cf710fcc92cf665b229f0a03.stex" ]
 
 [params]
 
