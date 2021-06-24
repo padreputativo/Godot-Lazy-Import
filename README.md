@@ -1,4 +1,4 @@
-# Lazy Import Plugin for Godot
+# Lazy Import Plugin for Godot 3.3
 Are you too much lazy to follow the importing assets workflow? I am too, and I think that machines should do for us the repeated tasks! Using this plugin, you will be able to try to:
 
 - Create Godot PBR Materials automatically using their filenames...
