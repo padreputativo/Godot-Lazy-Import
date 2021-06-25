@@ -2,6 +2,8 @@ tool
 extends Node
 
 
+onready var plugin = get_tree().get_root().get_node("EditorNode").get_node("Lazy Import Plugin") 
+
 # before scan
 var directory
 var dir_found = false
@@ -31,22 +33,20 @@ onready var file_list = $"ScrollContainer/File List"
 const ImageConfig = preload("res://addons/Lazy_Import/templates/ImageConfig.tscn")
 const MeshConfig = preload("res://addons/Lazy_Import/templates/MeshConfig.tscn")
 const MaterialConfig = preload("res://addons/Lazy_Import/templates/MaterialConfig.tscn")
-
+	
+	
+	
+	
 func _ready():
-	lazyImport().debug("Dock _ready: " + self.name + " - " + self.get_path())
-	self.set_name(lazyImport().PluginDockName)
+	self.set_name(plugin.PluginDockName)
 	# no hacer refresh aqui porque este archivo se carga aun no estando el plugin activado o cargado todavia
 
-
-func lazyImport():
-	return get_tree().get_root().get_node("EditorNode").get_node("Lazy Import Plugin")
-
-
 func refresh(from):
-	yield(get_tree(), "idle_frame")
-	lazyImport().debug(from + " > refresh() START")
-	
-	if lazyImport().dock_isReady() && lazyImport().plugin_isReady():
+	if plugin && plugin.is_enabled():
+		# esperamos un frame para que el dato reciba la señal de actualizarse
+		# esperamos antes de empezar para no partir en dos el proceso y se intercalen
+		yield(get_tree(), "idle_frame")
+		
 		if file_list is VBoxContainer:
 			
 			# reset de variables
@@ -61,17 +61,12 @@ func refresh(from):
 				file_list.remove_child(n)
 				n.queue_free()
 			
-			# esperamos un frame para que el dato reciba la señal de actualizarse
-			# esperamos arriba, antes de empezar para no partir en dos el proceso
-			# yield(get_tree(), "idle_frame")
-			
 			# miramos que directorio hemos recibido
-			directory = lazyImport().selected_path()
+			directory = plugin.selected_path()
 
 			# revisamos el directorio
 			var dir = Directory.new()
 			if dir.dir_exists(directory) && dir.open(directory) == OK:
-				lazyImport().debug("refresh: directory exists: " + directory)
 				dir.open(directory)
 				dir.list_dir_begin()
 
@@ -80,7 +75,6 @@ func refresh(from):
 					if not dir.current_is_dir() && file != "" && not file.begins_with(".") && search_filter in file.to_lower():
 						if is_valid_image_extension(file):
 							image_found = true
-							lazyImport().debug("refresh: dir list: " + file)
 							# instanciamos checkbox
 							var node = ImageConfig.instance()
 							node.get_node("CheckBox").text = file
@@ -91,7 +85,6 @@ func refresh(from):
 						
 						if is_valid_mesh_extension(file):
 							mesh_found = true
-							lazyImport().debug("refresh: list: " + file)
 							# instanciamos checkbox
 							var node = MeshConfig.instance()
 							node.get_node("CheckBox").text = file
@@ -109,7 +102,6 @@ func refresh(from):
 							
 						if is_valid_material_extension(file):
 							material_found = true
-							lazyImport().debug("refresh: list: " + file)
 							# instanciamos checkbox
 							var node = MaterialConfig.instance()
 							node.get_node("CheckBox").text = file
@@ -126,11 +118,9 @@ func refresh(from):
 				dir_found = true
 		
 			refresh_buttons()
-		
-		lazyImport().debug(from + " > refresh() ENDED")
 
 func is_valid_image_extension(file_name):
-	lazyImport().check_string(file_name)
+	plugin.check_string(file_name)
 	file_name = file_name.to_lower()
 	for f in image_extensions:
 		if file_name.ends_with("." + f):
@@ -138,7 +128,7 @@ func is_valid_image_extension(file_name):
 	return false
 	
 func is_valid_mesh_extension(file_name):
-	lazyImport().check_string(file_name)
+	plugin.check_string(file_name)
 	file_name = file_name.to_lower()
 	for f in mesh_extensions:
 		if file_name.ends_with("." + f):
@@ -146,7 +136,7 @@ func is_valid_mesh_extension(file_name):
 	return false
 	
 func is_valid_material_extension(file_name):
-	lazyImport().check_string(file_name)
+	plugin.check_string(file_name)
 	file_name = file_name.to_lower()
 	for f in material_extensions:
 		if file_name.ends_with(f):
@@ -154,9 +144,7 @@ func is_valid_material_extension(file_name):
 	return false
 
 func refresh_buttons():
-	lazyImport().debug("refresh_buttons()")
-	if lazyImport().dock_isReady():
-		
+	if plugin && plugin.is_enabled():
 		boton_error.visible = false
 		boton_toggle.visible = false
 		boton_scenes.visible = false
@@ -204,8 +192,7 @@ func refresh_buttons():
 
 
 func load_template(file):
-	lazyImport().debug("load_template()")
-	lazyImport().check_string(file)
+	plugin.check_string(file)
 	
 	var text = ""
 	var f = File.new()
@@ -215,15 +202,13 @@ func load_template(file):
 		text += f.get_line()
 	f.close()
 	
-	lazyImport().check_string(text)
-	lazyImport().debug("load_template(): " + text)
+	plugin.check_string(text)
 	
 	return text
 
 func save_template(file_name, file_content):
-	lazyImport().debug("load_template(): file_name = " + file_name + " - file_content : " + file_content)
-	lazyImport().check_string(file_name)
-	lazyImport().check_string(file_content)
+	plugin.check_string(file_name)
+	plugin.check_string(file_content)
 	
 	var file := File.new()
 	file.open(file_name, file.WRITE)
@@ -231,10 +216,10 @@ func save_template(file_name, file_content):
 	file.store_string(file_content)
 	file.close()
 	
-	lazyImport().notify("created a new file: " + file_name)
+	plugin.notify("created a new file: " + file_name)
 
 func remove_file_extensions(file_name):
-	lazyImport().check_string(file_name)
+	plugin.check_string(file_name)
 	
 	var filenameToLower = file_name.to_lower()
 	for f in image_extensions:
@@ -251,18 +236,21 @@ func remove_file_extensions(file_name):
 
 
 func guess_layer(file_name):
-	lazyImport().check_string(file_name)
+	plugin.check_string(file_name)
 	var layer = 0
 	file_name = file_name.to_lower()
 	
 	# Ambiguous and super reduced  names
-	for f in ["color"]:
+	for f in ["color", "_diff_", "diffusion", "diffuse"]:
 		if (f in file_name):
 			layer = 1
-	for f in ["thickness"]: # thickness es otra forma de llamar al roughness?
+	for f in ["specular"]:
+		if (f in file_name):
+			layer = 2
+	for f in ["_rough_", "thickness"]: # thickness es otra forma de llamar al roughness?
 		if (f in file_name):
 			layer = 3
-	for f in ["_n.", "_n_", "_nm_", "_nm."]: # normal map
+	for f in ["_n.", "_n_", "_nm_", "_nm.", "_nor_gl_"]: # normal map
 		if (f in file_name):
 			layer = 5
 	for f in ["_ao_", "_ao."]: # ambient occlusion
@@ -330,7 +318,7 @@ func guess_layer(file_name):
 	for f in ["decal"]:
 		if (f in file_name):
 			layer = 15
-	for f in ["specular", "diffuse", "opacity"]:
+	for f in ["opacity"]:
 		if (f in file_name):
 			layer = 16
 
@@ -338,8 +326,7 @@ func guess_layer(file_name):
 
 
 func try_to_fix_file(file_name):
-	lazyImport().debug("try_to_fix_file()")
-	lazyImport().check_string(file_name)
+	plugin.check_string(file_name)
 	file_name = file_name.to_lower()
 
 	for f in ["displacement"]:
@@ -348,17 +335,16 @@ func try_to_fix_file(file_name):
 			
 	for f in ["specular", "diffuse"]:
 		if (f in file_name):
-			lazyImport().notify("You need to convert the " + f + " map to PBR")
+			plugin.notify("You need to convert the " + f + " map to PBR")
 			
 	for f in ["opacity", "glass"]:
 		if (f in file_name):
-			lazyImport().notify("You probably need to put the " + f + " map inside the Albedo Alpha channel")
+			plugin.notify("You probably need to put the " + f + " map inside the Albedo Alpha channel")
 
 func change_import_file(file_name, what, forwhat):
-	lazyImport().debug("change_import_file()")
-	lazyImport().check_string(file_name)
-	lazyImport().check_string(what)
-	lazyImport().check_string(forwhat)
+	plugin.check_string(file_name)
+	plugin.check_string(what)
+	plugin.check_string(forwhat)
 	
 	var file_content = load_template(file_name + ".import")
 	file_content.replace(what, forwhat)
@@ -366,15 +352,13 @@ func change_import_file(file_name, what, forwhat):
 
 
 func create_material():
-	lazyImport().debug("_on_Materials_pressed()")
-	if lazyImport().dock_isReady():
+	if plugin && plugin.is_enabled():
 		
-		# TODO remove Unknown and Unable to process 
+		# TODO ignore Unknown and Unable to process 
 		
 		var file_name = "_material.tres"
 		if material_filename.text != "":
 			file_name = material_filename.text + "_material.tres"
-		lazyImport().debug(file_name)
 		
 		var file_content = load_template("res://addons/Lazy_Import/templates/spatialmaterial.header.tres.txt") + "\n\n"
 		var step1 = load_template("res://addons/Lazy_Import/templates/spatialmaterial.step1.tres.txt") + "\n\n"
@@ -384,14 +368,12 @@ func create_material():
 		for node in file_list.get_children():
 			var N = node.get_node("CheckBox")
 			if N is CheckBox && N.pressed == true:
-				lazyImport().debug(N.text)
-				#try_to_fix_file(N.text)
+				try_to_fix_file(N.text)
 				file_content += step1.replace("%%FILE%%", directory + N.text).replace("%%ID%%", file_id) + "\n"
 				file_id += 1
 		
 		file_content += load_template("res://addons/Lazy_Import/templates/spatialmaterial.step2.tres.txt") + "\n\n"
 		
-		lazyImport().debug(material_options.text)
 		match material_options.text:
 			"High Quality":
 				file_content += ""
@@ -464,12 +446,11 @@ func create_material():
 				
 				file_id += 1
 
-		lazyImport().debug(file_name + " - " +  file_content)
 		var full_path = directory + "/" + file_name
 		save_template(full_path, file_content)
 		
-		lazyImport().filesystem_refresh()
-		lazyImport().material_preview(file_name, full_path)
+		plugin.filesystem_refresh()
+		plugin.material_preview(file_name, full_path)
 		refresh("create_material")
 
 
@@ -477,9 +458,7 @@ func create_material():
 # Signals
 
 func _on_Scenes_pressed():
-	lazyImport().debug("_on_Scenes_pressed()")
-	if lazyImport().dock_isReady():
-		
+	if plugin && plugin.is_enabled():
 		var template = load_template("res://addons/Lazy_Import/templates/scene.tscn.txt")
 		
 		for node in file_list.get_children():
@@ -487,27 +466,24 @@ func _on_Scenes_pressed():
 			if N is CheckBox && N.pressed == true:
 				var checkbox_file = N.text
 				var checkbox_name = remove_file_extensions(checkbox_file)
-				if lazyImport().check_string(checkbox_name):
+				if plugin.check_string(checkbox_name):
 					var file_name = directory + "/" + checkbox_file + ".tscn"
 					var file_included = directory + "/" + checkbox_file
 					var file_content = template.replace("%%FILE%%", file_included).replace("%%NAME%%", checkbox_name)
 				
 					save_template(file_name, file_content)
 		
-		lazyImport().filesystem_refresh()
+		plugin.filesystem_refresh()
 		refresh("_on_Scenes_pressed")
 
 
 func _on_Materials_pressed():
-	lazyImport().debug("_on_Materials_pressed()")
-	if lazyImport().dock_isReady():
+	if plugin && plugin.is_enabled():
 		create_material()
 
 
 func _on_ToogleAll_pressed():
-	lazyImport().debug("_on_ToogleAll_pressed()")
-	if lazyImport().dock_isReady():
-		
+	if plugin && plugin.is_enabled():
 		for node in file_list.get_children():
 			var N = node.get_node("CheckBox")
 			if N is CheckBox && N.disabled == false:
@@ -519,9 +495,7 @@ func _on_ToogleAll_pressed():
 
 
 func _on_LineEdit_text_changed(new_text):
-	lazyImport().debug("_on_LineEdit_text_changed()")
-	if lazyImport().dock_isReady():
-		
+	if plugin && plugin.is_enabled():
 		if new_text != "":
 			search_filter = new_text
 		else:
@@ -530,13 +504,12 @@ func _on_LineEdit_text_changed(new_text):
 
 
 func _on_MaterialName_text_changed(new_text):
-	lazyImport().debug("_on_MaterialName_text_changed()")
-	if lazyImport().dock_isReady():
+	if plugin && plugin.is_enabled():
 		pass # Replace with function body.
 
 func _on_Preview_pressed(button):
-	if lazyImport().dock_isReady():
+	if plugin && plugin.is_enabled():
 		var data =  button.text
 		data = data.split("@|@")
-		lazyImport().notify("Opening preview with " + data[0])
-		lazyImport().material_preview(data[0], data[1])
+		plugin.notify("Opening preview with " + data[0])
+		plugin.material_preview(data[0], data[1])
