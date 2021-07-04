@@ -11,12 +11,16 @@ config_version=4
 [application]
 
 config/name="Lazy Import"
-run/main_scene="res://index.tscn"
+run/main_scene="res://addons/lazy_import/do not export tools/Material.Test.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+lazy_import="*res://addons/lazy_import/singleton.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Lazy_Import/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/lazy_import/plugin.cfg" )
 
 [physics]
 
@@ -24,4 +28,12 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+quality/shading/force_lambert_over_burley=true
+quality/shading/force_blinn_over_ggx=true
+quality/filters/use_nearest_mipmap_filter=true
+quality/subsurface_scattering/quality=2
+quality/voxel_cone_tracing/high_quality=true
+environment/default_clear_color=Color( 0, 0, 0, 1 )
+quality/filters/msaa=2
+quality/filters/use_fxaa=true
+quality/filters/use_debanding=true

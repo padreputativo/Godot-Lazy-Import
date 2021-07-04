@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/lazy_import/do not export tools/Icons/NodeWarning.svg" type="Texture" id=1]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="."]
+margin_right = 914.0
+margin_bottom = 24.0
+size_flags_horizontal = 15
+shortcut_in_tooltip = false
+text = "This should never appears in screen"
+expand_icon = true
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 918.0
+margin_right = 1024.0
+margin_bottom = 24.0
+text = "Unknown"
+icon = ExtResource( 1 )
+items = [ "Unknown", ExtResource( 1 ), false, 0, null, "Albedo", null, false, 1, null, "Metallic", null, false, 2, null, "Roughness", null, false, 3, null, "Emission", null, false, 4, null, "Normal Map", null, false, 5, null, "Rim", null, false, 6, null, "Clearcoat", null, false, 7, null, "Anisotropy", null, false, 8, null, "Ambient Occlusion", null, false, 9, null, "Depth", null, false, 10, null, "Subsurface Scattering", null, false, 11, null, "Transmission", null, false, 12, null, "Refraction", null, false, 13, null, "Detail", null, false, 14, null, "Decal", null, false, 15, null, "Unable to process", ExtResource( 1 ), false, 16, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}

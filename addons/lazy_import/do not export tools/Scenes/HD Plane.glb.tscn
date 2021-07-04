@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/lazy_import/do not export tools/Scenes/HD Plane.glb" type="PackedScene" id=1]
+[node name="HD Plane" instance=ExtResource( 1 )]cast_shadow = 2
