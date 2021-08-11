@@ -13,4 +13,4 @@ I created this plugin because I did not like the 3D workflow and I do not unders
 
 https://github.com/doradoro
 
-[![Check Out the Workflow in Youtube!](https://github.com/doradoro/Godot-Lazy-Import/raw/main/addons/Lazy_Import/brand/screenshot.png)](https://www.youtube.com/watch?v=kUzZvQe5qeE)
+[![Check Out the Workflow in Youtube!](https://raw.githubusercontent.com/doradoro/Godot-Lazy-Import/main/screenshot.png)](https://www.youtube.com/watch?v=kUzZvQe5qeE)
