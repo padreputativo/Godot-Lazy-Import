@@ -191,20 +191,19 @@ func refresh_buttons():
 		boton_error.visible = true
 
 
-func load_template(file):
-	plugin.check_string(file)
+func load_template(archivo):
+	plugin.check_string(archivo)
+	var content = ""
 	
-	var text = ""
-	var f = File.new()
-	f.open(file, File.READ)
-
-	while not f.eof_reached():
-		text += f.get_line()
-	f.close()
+	var file = File.new()
+	if file.file_exists(archivo):
+		file.open(archivo, File.READ)
+		content = file.get_as_text()
+		file.close()
+	else:
+		singleton.error("unable to load template file " + str(archivo))
 	
-	plugin.check_string(text)
-	
-	return text
+	return content
 
 func save_template(file_name, file_content):
 	plugin.check_string(file_name)
@@ -216,7 +215,7 @@ func save_template(file_name, file_content):
 	file.store_string(file_content)
 	file.close()
 	
-	plugin.notify("created a new file: " + file_name)
+	singleton.notify("created a new file: " + file_name)
 
 func remove_file_extensions(file_name):
 	plugin.check_string(file_name)
@@ -335,11 +334,11 @@ func try_to_fix_file(file_name):
 			
 	for f in ["specular", "diffuse"]:
 		if (f in file_name):
-			plugin.notify("You need to convert the " + f + " map to PBR")
+			singleton.notify("You need to convert the " + f + " map to PBR")
 			
 	for f in ["opacity", "glass"]:
 		if (f in file_name):
-			plugin.notify("You probably need to put the " + f + " map inside the Albedo Alpha channel")
+			singleton.notify("You probably need to put the " + f + " map inside the Albedo Alpha channel")
 
 func change_import_file(file_name, what, forwhat):
 	plugin.check_string(file_name)
@@ -358,8 +357,8 @@ func create_material():
 	if material_filename.text != "":
 		file_name = material_filename.text + "_material.tres"
 	
-	var file_content = load_template("res://addons/Lazy_Import/templates/spatialmaterial.header.tres.txt") + "\n\n"
-	var step1 = load_template("res://addons/Lazy_Import/templates/spatialmaterial.step1.tres.txt") + "\n\n"
+	var file_content = load_template("res://addons/lazy_import/do not export tools/templates/spatialmaterial.header.tres.txt") + "\n\n"
+	var step1 = load_template("res://addons/lazy_import/do not export tools/templates/spatialmaterial.step1.tres.txt") + "\n\n"
 	
 	# listado de archivos
 	var file_id = 1
@@ -370,7 +369,7 @@ func create_material():
 			file_content += step1.replace("%%FILE%%", directory + N.text).replace("%%ID%%", file_id) + "\n"
 			file_id += 1
 	
-	file_content += load_template("res://addons/Lazy_Import/templates/spatialmaterial.step2.tres.txt") + "\n\n"
+	file_content += load_template("res://addons/lazy_import/do not export tools/templates/spatialmaterial.step2.tres.txt") + "\n\n"
 	
 	match material_options.text:
 		"High Quality":
@@ -456,7 +455,7 @@ func create_material():
 # Signals
 
 func _on_Scenes_pressed():
-	var template = load_template("res://addons/Lazy_Import/templates/scene.tscn.txt")
+	var template = load_template("res://addons/lazy_import/do not export tools/templates/scene.tscn.txt")
 	
 	for node in file_list.get_children():
 		var N = node.get_node("CheckBox")
@@ -503,5 +502,5 @@ func _on_LineEdit_text_changed(new_text):
 func _on_Preview_pressed(button):
 	var data =  button.text
 	data = data.split("@|@")
-	plugin.notify("Opening preview with " + data[0])
+	singleton.notify("Opening preview with " + data[0])
 	plugin.material_preview(data[0], data[1])

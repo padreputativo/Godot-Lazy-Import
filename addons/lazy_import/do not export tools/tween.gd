@@ -27,12 +27,12 @@ func _ready():
 	tween_values[1] = end
 	
 	#configure_materials(plugin.material_previewing)
-	
-	# be ordered please!
-	yield(get_tree().create_timer((self.get_index()+1)*(10/3)), "timeout")
-	
-	_start_tween_pos()
-	if rotate: _start_tween_rot()
+	if(is_instance_valid(self)): 
+		# be ordered please!
+		yield(get_tree().create_timer((self.get_index()+1)*(10/3)), "timeout")
+		
+		start_tween_pos()
+		if rotate: start_tween_rot()
 
 
 func configure_materials(material_name : String = "test_material", nodo = self):
@@ -50,23 +50,23 @@ func configure_materials(material_name : String = "test_material", nodo = self):
 					N.set_material_override(material)
 					#print(N.name)
 		else:
-			plugin.error("Materials cannot been set")
+			singleton.error("Materials cannot been set")
 
 
-func _start_tween_pos():
+func start_tween_pos():
 	tween_pos.interpolate_property(self, "translation", tween_values[0], tween_values[1], 10, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween_pos.start()
 
-func _start_tween_rot():
+func start_tween_rot():
 	tween_rot.interpolate_property(self, "rotation", Vector3.ZERO, Vector3(360,360,360), 1000, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween_rot.start()
 
 func _on_tween_pos_completed(object, key):
 	tween_values.invert()
-	_start_tween_pos()
+	start_tween_pos()
 
 func _on_tween_rot_completed(object, key):
-	_start_tween_rot()
+	start_tween_rot()
 
 func _on_material_changed():
 	configure_materials(plugin.material_previewing)

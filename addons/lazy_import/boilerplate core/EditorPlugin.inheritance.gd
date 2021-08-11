@@ -18,8 +18,10 @@ func _enter_tree():
 
 func _exit_tree():
 	if singleton:
+		if singleton.AUTOLOAD_SINGLETON:
+			remove_autoload_singleton(singleton.DIR_NAME)
+
 		singleton.queue_free()
-		remove_autoload_singleton(singleton.DIR_NAME)
 	
 	if plugin_scope: plugin_scope.deferred_exit_tree()
 
@@ -42,7 +44,8 @@ func _on_singleton_ready():
 		singleton.error("Wrong configuration")
 	else:
 		plugin_scope.name = singleton.DIR_NAME
-		add_autoload_singleton(singleton.DIR_NAME, singleton.ADDON_DIR + "singleton.gd")
+		if singleton.AUTOLOAD_SINGLETON:
+			add_autoload_singleton(singleton.DIR_NAME, singleton.ADDON_DIR + "singleton.gd")
 		
 		if plugin_scope: plugin_scope.deferred_enter_tree()
 

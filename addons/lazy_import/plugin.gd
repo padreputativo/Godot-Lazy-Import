@@ -46,7 +46,7 @@ func deferred_enter_tree():
 		subscribe_to_trees()
 	
 		remote_refresh("_enter_tree")
-		material_preview()
+		#material_preview()
 
 
 func deferred_exit_tree():
@@ -58,8 +58,8 @@ func deferred_exit_tree():
 
 func check_string(variable : String):
 	assert(variable)
-	if variable == "":
-		singleton.error("string check error")
+	if variable == "" || variable.empty():
+		singleton.error("string should not be empty")
 		return false
 	else:
 		return true

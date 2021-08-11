@@ -7,8 +7,6 @@ extends "../boilerplate.gd"
 #############################
 
 
-var plugin_scope
-
 func error(msg):
 	return push_error(PLUGIN_NAME + " ERROR : " + msg)
 

@@ -2,14 +2,18 @@ extends "_CONFIG.gd"
 
 #############################
 #  Lazy Plugin Boilerplate  #
+#    Configuration  File    #
 #############################
 
 
+######
+###### WARNING!!! THIS FILE IS INTENDED FOR THE PLUGIN OWNER ONLY!
+######
 ###### STEP 1: Rename the plugin directory
 ###### STEP 2: Edit your plugin.cfg file going to Project / Project Settings / Plugins (Tab) / Edit
-###### STEP 3: Configure this plugin's information
-const PLUGIN_NAME = "Lazy Import" # Should be the same as Project / Project Settings / Plugins
-const DIR_NAME = "lazy_import" # Should use underscores instead of spaces
+###### STEP 3: Configure the plugin here:
+const PLUGIN_NAME = "Lazy Import" # The name used in your plugin's messages
+const DIR_NAME = "lazy_import" # You MUST use underscores instead of spaces and use lower case = snake_case
 const ADDON_DIR = "res://addons/" + DIR_NAME + "/" # Do not change this line
 
 # Check https://semver.org/ to understand Semantic Versioning
@@ -25,14 +29,20 @@ const REQUIRED_PLUGINS_DIR_NAMES = [DIR_NAME, "lazy_import"]
 ###### STEP 4: Remove plugin.gd and use a Template file to create again your own plugin.gd
 # Right clicks in your plugin's directory and create New Script, select a Template, name it plugin.gd
 
-###### STEP 5: Code your plugin
+###### STEP 5: Code your singleton.gd to share information all over your scripts
 
-###### STEP 6: Create another Template: tool, singleton...
+const AUTOLOAD_SINGLETON = false # This will AutoLoad your singleton.gd scripts into your gameplay
 
-###### STEP 7: Delete all files having names finishing in '_example.gd'
+###### STEP 6: Create another editor's tool file using a Template File
+
+###### STEP 7: Use the _CONFIG.gd to offer configuration constants to your users
+
+###### STEP 8: Delete all files having names finishing in '_example.gd'
 # Those are located inside 'do not export tools' and 'export ingame scripts'
 
-###### STEP 8: Finish your plugin, upload it to the Asset Library and be happy for ever and ever
+###### STEP 9: Upload it to the Godot Asset Library
+
+###### STEP 10: Be happy for ever and ever
 
 
 ###### DETAILED INFORMATION

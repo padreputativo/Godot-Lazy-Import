@@ -1,9 +1,12 @@
 extends Node
 
 ########################
-#     Lazy  Import     #
+#  YOUR PLUGIN'S NAME  #
 # Plugin Configuration #
 ########################
 
 
-# Nothing for now
+###### YOUR PLUGIN'S CONFIGURATION CONSTANTS
+
+
+###### YOUR PLUGIN'S INSTRUCTIONS

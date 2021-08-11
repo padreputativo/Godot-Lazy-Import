@@ -6,8 +6,8 @@ extends "boilerplate core/SingletonNode.inheritance.gd"
 #############################
 
 
-###### YOUR PLUGIN'S SINGLETON CODE
+onready var singleton = $"/root/lazy_import"
 
 func _ready():
-	#notify("The plugin is running your singleton during the gameplay and the Editor!")
-	pass
+	# You have some extra methods: singleton.notify(string), singleton.warning(string), singleton.error(string)
+	singleton.notify("The plugin is running!")

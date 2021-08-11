@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/lazy_import/do not export tools/order_children_nodes.gd" type="Script" id=1]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Enviroment" type="Spatial" parent="."]
+
+[node name="Modular Assets" type="Spatial" parent="."]
+script = ExtResource( 1 )

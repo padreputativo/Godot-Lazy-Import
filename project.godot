@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Lazy Import"
-run/main_scene="res://addons/lazy_import/do not export tools/Material.Test.tscn"
+run/main_scene="res://Workflow.tscn"
 config/icon="res://icon.png"
 
 [autoload]
