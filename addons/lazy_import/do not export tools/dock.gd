@@ -240,10 +240,10 @@ func guess_layer(file_name):
 	file_name = file_name.to_lower()
 	
 	# Ambiguous and super reduced  names
-	for f in ["color", "_diff_", "diffusion", "diffuse"]:
+	for f in ["color", "_diff_", "diffusion", "diffuse", "_bc.", "_bc_"]:
 		if (f in file_name):
 			layer = 1
-	for f in ["specular"]:
+	for f in ["specular", "_m.", "_m_"]:
 		if (f in file_name):
 			layer = 2
 	for f in ["_rough_", "thickness"]: # thickness es otra forma de llamar al roughness?
@@ -255,7 +255,7 @@ func guess_layer(file_name):
 	for f in ["_ao_", "_ao."]: # ambient occlusion
 		if (f in file_name):
 			layer = 9
-	for f in ["height"]: # ¿height seria lo contrario a depth?
+	for f in ["height", "_dm.", "_dm_"]: # ¿height seria lo contrario a depth? Displacement Map?
 		if (f in file_name):
 			layer = 10
 	for f in ["_ss_", "_ss."]: # subsurface scattering
@@ -379,7 +379,7 @@ func create_material():
 		"Low End":
 			file_content += "flags_vertex_lighting = true\n"
 		"Interface":
-			file_content += "flags_no_depth_test = true\nflags_fixed_size = true\nflags_do_not_receive_shadows = true\nflags_disable_ambient_light = true\nparams_specular_mode = 4\nparams_billboard_mode = 1\nparams_billboard_keep_scale = true\n"
+			file_content += "flags_no_depth_test = false\nflags_fixed_size = true\nflags_do_not_receive_shadows = true\nflags_disable_ambient_light = true\nparams_specular_mode = 4\nparams_billboard_mode = 1\nparams_billboard_keep_scale = true\n" # mejor poner esto flags_no_depth_test = false siempre false
 		"Hair":
 			file_content += "params_diffuse_mode = 2\n"
 		"Cloth":
@@ -387,13 +387,13 @@ func create_material():
 		"Toon":
 			file_content += "params_diffuse_mode = 4\nparams_specular_mode = 3\n"
 		"Foliage":
-			file_content += "flags_no_depth_test = true\nparams_depth_draw_mode = 3\n"
+			file_content += "flags_no_depth_test = false\nparams_depth_draw_mode = 3\n"
 		"Billboard":
-			file_content += "flags_no_depth_test = true\nparams_depth_draw_mode = 3\nparams_billboard_mode = 1\n"
+			file_content += "flags_no_depth_test = false\nparams_depth_draw_mode = 3\nparams_billboard_mode = 1\n"
 		"Particles":
-			file_content += "flags_no_depth_test = true\nparams_billboard_mode = 3\nparticles_anim_h_frames = 1\nparticles_anim_v_frames = 1\nparticles_anim_loop = false\n"
+			file_content += "flags_no_depth_test = false\nparams_billboard_mode = 3\nparticles_anim_h_frames = 1\nparticles_anim_v_frames = 1\nparticles_anim_loop = false\n"
 		"Sprite":
-			file_content += "flags_no_depth_test = true\nflags_fixed_size = true\nflags_do_not_receive_shadows = true\nparams_specular_mode = 4\nparams_use_alpha_scissor = true\nparams_alpha_scissor_threshold = 0.98\n"
+			file_content += "flags_no_depth_test = false\nflags_fixed_size = true\nflags_do_not_receive_shadows = true\nparams_specular_mode = 4\nparams_use_alpha_scissor = true\nparams_alpha_scissor_threshold = 0.98\n"
 		"Meat":
 			file_content += ""
 		"Light":
@@ -411,7 +411,7 @@ func create_material():
 				"Albedo":
 					file_content += "albedo_texture = ExtResource( " + str(file_id) + " )\n"
 				"Metallic":
-					file_content += "metallic_texture = ExtResource( " + str(file_id) + " )\nmetallic = 1.0\nroughness = 0.5\n"
+					file_content += "metallic_texture = ExtResource( " + str(file_id) + " )\nmetallic = 0.5\nroughness = 1\n"
 				"Rougness":
 					file_content += "roughness_texture = ExtResource( " + str(file_id) + " )\n"
 				"Emission":

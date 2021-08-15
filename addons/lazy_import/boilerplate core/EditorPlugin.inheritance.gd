@@ -61,11 +61,11 @@ func check_editor_configuration() -> bool:
 		elif plugin_scope.get_script().get_path().get_base_dir() != "res://addons/" + singleton.DIR_NAME: # check if the plugin is properly located
 			singleton.error(plugin_scope.get_script().get_path().get_base_dir() + " should be res://addons/" + singleton.DIR_NAME)
 		elif Engine.get_version_info().major != singleton.MIN_GODOT_VERSION_MAYOR:
-			singleton.error(str(Engine.get_version_info().major) + " should be " + str(singleton.MIN_GODOT_VERSION_MAYOR))
-		elif Engine.get_version_info().minor <= singleton.MIN_GODOT_VERSION_MINOR:
-			singleton.error(str(Engine.get_version_info().minor) + " should be >= " + str(singleton.MIN_GODOT_VERSION_MINOR))
-		elif Engine.get_version_info().patch <= singleton.MIN_GODOT_VERSION_PATCH:
-			singleton.error(str(Engine.get_version_info().patch) + " should be >= " + str(singleton.MIN_GODOT_VERSION_PATCH))
+			singleton.error("Mayor Godot Version is " + str(Engine.get_version_info().major) + " and should be " + str(singleton.MIN_GODOT_VERSION_MAYOR))
+		elif Engine.get_version_info().minor < singleton.MIN_GODOT_VERSION_MINOR:
+			singleton.error("Minor Godot Version is " + str(Engine.get_version_info().minor) + " and should be >= " + str(singleton.MIN_GODOT_VERSION_MINOR))
+		elif Engine.get_version_info().patch < singleton.MIN_GODOT_VERSION_PATCH:
+			singleton.error("Patch Godot Version is " + str(Engine.get_version_info().patch) + " and should be >= " + str(singleton.MIN_GODOT_VERSION_PATCH))
 		else:
 			for _plugin in singleton.REQUIRED_PLUGINS_DIR_NAMES:
 				if not get_editor_interface().is_plugin_enabled(_plugin):

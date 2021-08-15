@@ -39,8 +39,8 @@ func deferred_enter_tree():
 	if dock != null:
 		# añadismo las señales
 		fileSystem.connect("filesystem_changed", self, "remote_refresh_by_filesystem_changed")
-		#fileSystem.connect("resources_reimported", self, "refresh")
-		#fileSystem.connect("resources_reload", self, "refresh")
+		#fileSystem.connect("resources_reimported", self, "remote_refresh_by_filesystem_changed")
+		#fileSystem.connect("resources_reload", self, "remote_refresh_by_filesystem_changed")
 		#fileSystem.connect("sources_changed", self, "remote_refresh_by_filesystem_changed")
 		fileSystemDock.connect("display_mode_changed", self, "remote_refresh_by_display_mode_changed")
 		subscribe_to_trees()
@@ -100,8 +100,8 @@ func subscribe_to_trees(node = fileSystemDock):
 			N.connect("cell_selected", self, "remote_refresh_by_tree_cell_selected")
 
 
-func remote_refresh_by_filesystem_changed():
-	remote_refresh("filesystem_changed")
+func remote_refresh_by_filesystem_changed(txt = "filesystem_changed"):
+	remote_refresh(txt)
 
 func remote_refresh_by_tree_cell_selected():
 	remote_refresh("filesystemDock Tree cell_selected")
