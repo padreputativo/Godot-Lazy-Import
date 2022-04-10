@@ -11,6 +11,6 @@ The plugin is about 10mb only! It will appear as a Tab in the left dock.
 
 I created this plugin because I did not like the 3D workflow and I do not understand how to configure PBR Materials properly, so if you find some kind of error or know how to improve the results, please Contribute in my GitHub! Thanks!
 
-https://github.com/doradoro
+https://github.com/padreputativo
 
 [![Check Out the Workflow in Youtube!](https://raw.githubusercontent.com/doradoro/Godot-Lazy-Import/main/screenshot.png)](https://www.youtube.com/watch?v=kUzZvQe5qeE)
